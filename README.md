@@ -5,6 +5,10 @@ Este projeto é um clone do aplicativo de pedidos de comida Deliveroo, desenvolv
 
 ## Funcionalidades Principais
 
+![image](https://github.com/xrrac42/DeliverooClone/assets/65977793/4aa8dfd7-7c3b-4871-8ea4-d5088855a9e8)
+![image](https://github.com/xrrac42/DeliverooClone/assets/65977793/ef6aeb41-bc0e-4b34-ab50-bd665a7e9bff)
+![image](https://github.com/xrrac42/DeliverooClone/assets/65977793/28afb615-f69c-4789-a335-4f9993ab7fdd)
+
 ### 1. Página Inicial
 - Apresenta uma lista de restaurantes disponíveis para entrega.
 - Os usuários podem navegar pelos restaurantes e visualizar informações básicas, como nome e tipo de cozinha.
@@ -25,6 +29,10 @@ Este projeto é um clone do aplicativo de pedidos de comida Deliveroo, desenvolv
 ### 6. Estado Global com Zustand
 - O estado global da aplicação é gerenciado usando Zustand, uma biblioteca para gerenciamento de estado em aplicações React.
 - Isso permite que informações como o conteúdo do carrinho sejam acessadas e atualizadas de forma eficiente em diferentes partes do aplicativo.
+
+
+
+
 
 ### 7. Integração com a API do Google
 - A aplicação utiliza a API do Google para obter dados geográficos, como localização de restaurantes, coordenadas de entrega e informações do mapa.
