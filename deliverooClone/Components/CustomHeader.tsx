@@ -1,9 +1,9 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
-import React, { useRef } from 'react';
+import React,{ useRef } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { Link } from 'expo-router';
-// import BottomSheet from './BottomSheet';
+import BottomSheet from './BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 const SearchBar = () => (
@@ -13,11 +13,11 @@ const SearchBar = () => (
         <Ionicons style={styles.searchIcon} name="ios-search" size={20} color={Colors.medium} />
         <TextInput style={styles.input} placeholder="Restaurants, groceries, dishes" />
       </View>
-      {/* <Link href={'/(modal)/filter'} asChild>
+      <Link href={'/'} asChild>
         <TouchableOpacity style={styles.optionButton}>
           <Ionicons name="options-outline" size={20} color={Colors.primary} />
         </TouchableOpacity>
-      </Link> */}
+      </Link>
     </View>
   </View>
 );
@@ -31,7 +31,7 @@ const CustomHeader = () => {
 
   return (
     <SafeAreaView style={[styles.safeArea, {marginTop: 25}]} >
-      {/* <BottomSheet ref={bottomSheetRef} /> */}
+      <BottomSheet ref={bottomSheetRef} />
 
       <View style={styles.container}>
         <TouchableOpacity onPress={openModal}>
