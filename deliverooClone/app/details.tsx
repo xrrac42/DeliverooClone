@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet,  Image, SafeAreaView, TouchableOpacity, SectionList, ListRenderItem, ScrollView } from 'react-native';
-import React, {useState, useRef} from 'react'
+import { View, Text, StyleSheet,  Image, TouchableOpacity, SectionList, ListRenderItem, ScrollView } from 'react-native';
+import React, {useState, useLayoutEffect, useRef} from 'react'
 import ParallaxScrollview from "../Components/ParallaxScrollview"
 import Colors from '../constants/Colors'
+import { Ionicons } from '@expo/vector-icons';
 import { restaurant } from '../assets/data/restaurant'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Link, useNavigation } from 'expo-router';
-
-
+import useBasketStore from '../store/basketStore';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Details = () => {
   const navigation = useNavigation();
@@ -17,15 +18,6 @@ const Details = () => {
     opacity: opacity.value,
   }));
 
-
-  const onScroll = (event: any) => {
-    const y = event.nativeEvent.contentOffset.y;
-    if (y > 350) {
-      opacity.value = withTiming(1);
-    } else {
-      opacity.value = withTiming(0);
-    }
-  };
   const scrollRef = useRef<ScrollView>(null);
   const itemsRef = useRef<TouchableOpacity[]>([]);
 
@@ -35,18 +27,62 @@ const Details = () => {
     index,
   }));
 
+  const { items, total } = useBasketStore();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTransparent: true,
+      headerTitle: '',
+      headerTintColor: Colors.primary,
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.roundButton}>
+          <Ionicons name="arrow-back" size={24} color={Colors.primary} />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <View style={styles.bar}>
+          <TouchableOpacity style={styles.roundButton}>
+            <Ionicons name="share-outline" size={24} color={Colors.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.roundButton}>
+            <Ionicons name="search-outline" size={24} color={Colors.primary} />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, []);
+
+  const selectCategory = (index: number) => {
+    const selected = itemsRef.current[index];
+    setActiveIndex(index);
+
+    selected.measure((x) => {
+      scrollRef.current?.scrollTo({ x: x - 16, y: 0, animated: true });
+    });
+  };
+
+  const onScroll = (event: any) => {
+    const y = event.nativeEvent.contentOffset.y;
+    if (y > 350) {
+      opacity.value = withTiming(1);
+    } else {
+      opacity.value = withTiming(0);
+    }
+  };
+
   const renderItem: ListRenderItem<any> = ({ item, index }) => (
     <Link href={{ pathname: '/(modal)/dish', params: { id: item.id } }} asChild>
-    <TouchableOpacity style={styles.item}>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.dish}>{item.name}</Text>
-        <Text style={styles.dishText}>{item.info}</Text>
-        <Text style={styles.dishText}>${item.price}</Text>
-      </View>
-      <Image source={item.img} style={styles.dishImage} />
-    </TouchableOpacity>
-     </Link>
+      <TouchableOpacity style={styles.item}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.dish}>{item.name}</Text>
+          <Text style={styles.dishText}>{item.info}</Text>
+          <Text style={styles.dishText}>${item.price}</Text>
+        </View>
+        <Image source={item.img} style={styles.dishImage} />
+      </TouchableOpacity>
+    </Link>
   );
+
   return (
     <>
       <ParallaxScrollview
@@ -80,7 +116,9 @@ const Details = () => {
           />
         </View>
       </ParallaxScrollview>
-      {/* <Animated.View style={[styles.stickySegments, animatedStyles]}>
+
+      {/* Sticky segments */}
+      <Animated.View style={[styles.stickySegments, animatedStyles]}>
         <View style={styles.segmentsShadow}>
           <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.segmentScrollview}>
             {restaurant.food.map((item, index) => (
@@ -94,9 +132,9 @@ const Details = () => {
             ))}
           </ScrollView>
         </View>
-      </Animated.View> */}
+      </Animated.View>
 
-{/*       
+      {/* Footer Basket */}
       {items > 0 && (
         <View style={styles.footer}>
           <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#fff' }}>
@@ -109,11 +147,10 @@ const Details = () => {
             </Link>
           </SafeAreaView>
         </View>
-      )} */}
-
+      )}
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   detailsContainer: {
@@ -263,12 +300,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 8,
     borderRadius: 2,
-  },
-  basketTotal: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-});
+  }, basketTotal:{
 
-export default Details;
+  }})
+
+  export default Details
