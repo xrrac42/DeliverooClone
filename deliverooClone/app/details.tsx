@@ -1,23 +1,56 @@
-import { View, Text, StyleSheet, Image} from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet,  Image, SafeAreaView, TouchableOpacity, SectionList, ListRenderItem, ScrollView } from 'react-native';
+import React, {useState, useRef} from 'react'
 import ParallaxScrollview from "../Components/ParallaxScrollview"
 import Colors from '../constants/Colors'
 import { restaurant } from '../assets/data/restaurant'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { Link, useNavigation } from 'expo-router';
 
-// const onScroll = (event: any) => {
-//   const y = event.nativeEvent.contentOffset.y;
-//   if (y > 350) {
-//     opacity.value = withTiming(1);
-//   } else {
-//     opacity.value = withTiming(0);
-//   }
-// };
+
 
 const Details = () => {
+  const navigation = useNavigation();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const opacity = useSharedValue(0);
+  const animatedStyles = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+
+  const onScroll = (event: any) => {
+    const y = event.nativeEvent.contentOffset.y;
+    if (y > 350) {
+      opacity.value = withTiming(1);
+    } else {
+      opacity.value = withTiming(0);
+    }
+  };
+  const scrollRef = useRef<ScrollView>(null);
+  const itemsRef = useRef<TouchableOpacity[]>([]);
+
+  const DATA = restaurant.food.map((item, index) => ({
+    title: item.category,
+    data: item.meals,
+    index,
+  }));
+
+  const renderItem: ListRenderItem<any> = ({ item, index }) => (
+    <Link href={{ pathname: '/(modal)/dish', params: { id: item.id } }} asChild>
+    <TouchableOpacity style={styles.item}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.dish}>{item.name}</Text>
+        <Text style={styles.dishText}>{item.info}</Text>
+        <Text style={styles.dishText}>${item.price}</Text>
+      </View>
+      <Image source={item.img} style={styles.dishImage} />
+    </TouchableOpacity>
+     </Link>
+  );
   return (
     <>
-         <ParallaxScrollview
-        // scrollEvent={onScroll}
+      <ParallaxScrollview
+        scrollEvent={onScroll}
         backgroundColor={'#fff'}
         style={{ flex: 1 }}
         parallaxHeaderHeight={250}
@@ -35,7 +68,7 @@ const Details = () => {
             {restaurant.delivery} · {restaurant.tags.map((tag, index) => `${tag}${index < restaurant.tags.length - 1 ? ' · ' : ''}`)}
           </Text>
           <Text style={styles.restaurantDescription}>{restaurant.about}</Text>
-          {/* <SectionList
+          <SectionList
             contentContainerStyle={{ paddingBottom: 50 }}
             keyExtractor={(item, index) => `${item.id + index}`}
             scrollEnabled={false}
@@ -44,9 +77,40 @@ const Details = () => {
             ItemSeparatorComponent={() => <View style={{ marginHorizontal: 16, height: 1, backgroundColor: Colors.grey }} />}
             SectionSeparatorComponent={() => <View style={{ height: 1, backgroundColor: Colors.grey }} />}
             renderSectionHeader={({ section: { title, index } }) => <Text style={styles.sectionHeader}>{title}</Text>}
-          /> */}
+          />
         </View>
       </ParallaxScrollview>
+      {/* <Animated.View style={[styles.stickySegments, animatedStyles]}>
+        <View style={styles.segmentsShadow}>
+          <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.segmentScrollview}>
+            {restaurant.food.map((item, index) => (
+              <TouchableOpacity
+                ref={(ref) => (itemsRef.current[index] = ref!)}
+                key={index}
+                style={activeIndex === index ? styles.segmentButtonActive : styles.segmentButton}
+                onPress={() => selectCategory(index)}>
+                <Text style={activeIndex === index ? styles.segmentTextActive : styles.segmentText}>{item.category}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </Animated.View> */}
+
+{/*       
+      {items > 0 && (
+        <View style={styles.footer}>
+          <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#fff' }}>
+            <Link href="/basket" asChild>
+              <TouchableOpacity style={styles.fullButton}>
+                <Text style={styles.basket}>{items}</Text>
+                <Text style={styles.footerText}>View Basket</Text>
+                <Text style={styles.basketTotal}>${total}</Text>
+              </TouchableOpacity>
+            </Link>
+          </SafeAreaView>
+        </View>
+      )} */}
+
     </>
   )
 }

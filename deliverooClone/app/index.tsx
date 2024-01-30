@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, SafeAreaView} from 'react-native'
+import { Text, ScrollView, StyleSheet, SafeAreaView} from 'react-native'
 import React from 'react'
 import Colors from '../constants/Colors';
 import Restaurants from '../Components/Restaurants';
