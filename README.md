@@ -15,20 +15,20 @@ O aplicativo permite que usuários visualizem restaurantes, naveguem pelos menus
 - Apresenta uma lista de restaurantes disponíveis para entrega.
 - Os usuários podem navegar pelos restaurantes e visualizar informações básicas, como nome e tipo de cozinha.
 
-### 2. Detalhes do Restaurante (Em Construção)
+### 2. Detalhes do Restaurante 
 - Ao clicar em um restaurante, os usuários podem acessar detalhes mais específicos, incluindo o menu completo do restaurante.
 
 ### 3. Navegação do Menu
 - A aplicação utiliza o Expo Router para facilitar a navegação entre as diferentes telas, como a lista de restaurantes, detalhes do restaurante e carrinho de compras.
 
-### 4. Adição ao Carrinho (Em Construção)
+### 4. Adição ao Carrinho 
 - Os usuários podem adicionar itens ao carrinho a partir do menu do restaurante.
 - O carrinho exibe os itens selecionados, suas quantidades e os preços correspondentes.
 
 ### 5. Reanimated e Animações
 - A biblioteca Reanimated é utilizada para criar animações suaves e interações visuais, proporcionando uma experiência de usuário agradável.
 
-### 6. Estado Global com Zustand (Em Construção)
+### 6. Estado Global com Zustand
 - O estado global da aplicação é gerenciado usando Zustand, uma biblioteca para gerenciamento de estado em aplicações React.
 - Isso permite que informações como o conteúdo do carrinho sejam acessadas e atualizadas de forma eficiente em diferentes partes do aplicativo.
 
@@ -38,7 +38,7 @@ O aplicativo permite que usuários visualizem restaurantes, naveguem pelos menus
 ## Pré-requisitos e Instalação
 
 1. Certifique-se de ter o Node.js instalado na sua máquina.
-2. Clone o repositório do projeto: `git clone https://github.com/seu-usuario/deliveroo-clone.git`
+2. Clone o repositório do projeto: `git clone https://github.com/xrrac42/deliveroo-clone.git`
 3. Navegue até o diretório do projeto: `cd deliveroo-clone`
 4. Instale as dependências: `npm install`
 5. Inicie o aplicativo: `npm start`
